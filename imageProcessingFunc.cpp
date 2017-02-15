@@ -36,7 +36,7 @@ int loadingImage(Img &image1, Img &image2, std::string name) {
 
 void edgeDetector(Img image, Img &imageOutput) {
     //! Find the edges of image using the Sobel method.
-    byte seuil = 64; // Si le gradient est en deça de ce seuil, on met le bord
+    byte seuil = 32; // Si le gradient est en deça de ce seuil, on met le bord
     // en noir, sinon en blanc.
 
     int hauteur = image.height();
