@@ -12,7 +12,7 @@
 Imagine::Image<int, 2> initDisparity(int largeur, int hauteur);
 
 //! Initialise the cost map for a row
-Imagine::Image<int, 2> initCost(int largeur, int ligne);
+Imagine::Image<int, 2> initCost(int largeur, int ligne, Img image1, Img image2);
 
 //! shorterPath computation with dynamic programming
 Imagine::Image<int, 1>
@@ -26,12 +26,12 @@ void disparityComputation(int largeur, int hauteur, Img image1, Img image2,
 //! shorterPath computation with dynamic programming with edges
 Imagine::Image<int, 1>
 shorterPathEdgy(int largeur, Img image1, Img image2, int ligne,
-            Img image1Edge, Img image2Edge);
+                Img image1Edge, Img image2Edge);
 
 //! depth computation with edges
 void disparityComputationEdgy(int largeur, int hauteur, Img image1, Img image2,
-                          int ligne, Imagine::Image<int, 2> disparity,
-                          int dispMax, int dispMin, Img image1Edge,
-                          Img image2Edge);
+                              int ligne, Imagine::Image<int, 2> disparity,
+                              int dispMax, int dispMin, Img image1Edge,
+                              Img image2Edge);
 
 #endif //PROJECT_SHORTERPATH_H
