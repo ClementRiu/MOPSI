@@ -73,27 +73,31 @@ void edgeDetector(Img image, Img &imageOutput) {
 
 
     // Edge detection :
-    for (int i = 0; i < hauteur; ++i) {
-        for (int j = 0; j < largeur; ++j) {
+    for (int ligne = 0; ligne < hauteur; ++ligne) {
+        for (int colonne = 0; colonne < largeur; ++colonne) {
 
             // The border is set to 0.
-            if ((i == 0) || (i == hauteur - 1) || (j == 0) ||
-                (j == largeur - 1)) {
+            if ((ligne == 0) || (ligne == hauteur - 1) || (colonne == 0) ||
+                (colonne == largeur - 1)) {
                 valX = 0;
                 valY = 0;
             } else {
                 // Computing the X and Y convolutions
                 valX = valY = 0;
-                for (int k = -1; k <= 1; ++k) {
-                    for (int l = -1; l <= 1; ++l) {
-                        valX = valX + image(j + l, i + k) * gX[1 + k][1 + l];
-                        valY = valY + image(j + l, i + k) * gY[1 + k][1 + l];
+                for (int caseVert = -1; caseVert <= 1; ++caseVert) {
+                    for (int caseHori = -1; caseHori <= 1; ++caseHori) {
+                        valX = valX +
+                               image(colonne + caseHori, ligne + caseVert) *
+                               gX[1 + caseVert][1 + caseHori];
+                        valY = valY +
+                               image(colonne + caseHori, ligne + caseVert) *
+                               gY[1 + caseVert][1 + caseHori];
                     }
                 }
             }
-            valSqrt = sqrt(valX * valX + 0 * valY * valY);
+            valSqrt = sqrt(valX * valX + valY * valY);
             // Setting the image value in a double image
-            imageDouble(j, i) = valSqrt;
+            imageDouble(colonne, ligne) = valSqrt;
 
             if (valSqrt > max) {
                 max = valSqrt;
@@ -102,12 +106,12 @@ void edgeDetector(Img image, Img &imageOutput) {
     }
 
     // The obtain results is 0 or 255.
-    for (int i = 0; i < hauteur; i++) {
-        for (int j = 0; j < largeur; ++j) {
-            if (imageDouble(j, i) > seuil * max / 255) {
-                imageOutput(j, i) = 255;
+    for (int ligne = 0; ligne < hauteur; ligne++) {
+        for (int colonne = 0; colonne < largeur; ++colonne) {
+            if (imageDouble(colonne, ligne) > seuil * max / 255) {
+                imageOutput(colonne, ligne) = 255;
             } else {
-                imageOutput(j, i) = 0;
+                imageOutput(colonne, ligne) = 0;
             }
         }
     }
@@ -115,7 +119,7 @@ void edgeDetector(Img image, Img &imageOutput) {
 
 byte transform(int valeur, int valMax, int valMin) {
     //! Gives a value between 0 and 254 to a given value.
-    return byte(255 * (valeur - valMin + 1) / (valMax - valMin));
+    return byte(255 * (valeur - 0 * valMin) / (valMax - 0 * valMin));
 }
 
 Imagine::Image<Imagine::Color, 2>
@@ -124,17 +128,18 @@ disparityToDepth(Imagine::Image<int, 2> disparity, int dispMax, int dispMin,
     //! Gives back the depth map from a disparity map.
     Imagine::Image<Imagine::Color, 2> depth(largeur, hauteur);
 
-    for (int i = 0; i < hauteur; ++i) {
-        for (int j = 0; j < largeur; ++j) {
-            int localDisparity = disparity(j, i);
+    for (int ligne = 0; ligne < hauteur; ++ligne) {
+        for (int colonne = 0; colonne < largeur; ++colonne) {
+            int localDisparity = disparity(colonne, ligne);
             if (localDisparity == -1) {
-                depth(j, i) = Imagine::Color(155, 0, 0);
+                depth(colonne, ligne) = Imagine::Color(155, 0, 0);
             } else {
                 if (localDisparity == 0) {
-                    depth(j, i) = Imagine::Color(0, 255, 255);
+                    depth(colonne, ligne) = Imagine::Color(0, 255, 0);
                 } else {
-                    byte col = transform(disparity(j, i), dispMax, dispMin);
-                    depth(j, i) = Imagine::Color(0, col, col);
+                    byte col = transform(disparity(colonne, ligne), dispMax,
+                                         dispMin);
+                    depth(colonne, ligne) = Imagine::Color(0, col, col);
                 }
             }
         }

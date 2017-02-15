@@ -25,7 +25,7 @@ int main() {
     std::cout << taille << std::endl;
 
     // Affichage des images.
-    Imagine::openWindow(3 * largeur, 2 * hauteur, "Images");
+    Imagine::openWindow(3 * largeur, 2 * hauteur, "Disparity map");
     display(grey(image_L));
     display(grey(image_R), Imagine::IntPoint2(0, hauteur));
 
@@ -40,8 +40,13 @@ int main() {
     //! Calcul de la carte de disparité
     Imagine::Image<int, 2> disparity(largeur, hauteur);
     disparity = initDisparity(largeur, hauteur);
-    int dispMax = -1;
-    int dispMin = INFINITY;
+    int *dispMaxTab = new int[hauteur];
+    int *dispMinTab = new int[hauteur];
+    for (int ligne = 0; ligne < hauteur; ++ligne){
+        dispMaxTab[ligne] = -1;
+        dispMinTab[ligne] = int(pow(2, 64));
+    }
+
 
     // Time calculation to compare different algorithm
     struct timespec start, finish;
@@ -49,16 +54,27 @@ int main() {
     std::cout << "Début du calcul..." << std::endl;
     clock_t time1 = clock_gettime(CLOCK_MONOTONIC, &start);
 
-#pragma omp parallel for
+//#pragma omp parallel for
     for (int ligne = 0; ligne < hauteur; ++ligne) {
         disparityComputation(largeur, hauteur, image_L, image_R, ligne,
-                             disparity, dispMax, dispMin);
+                             disparity, dispMaxTab[ligne], dispMinTab[ligne]);
     }
 
     clock_t time2 = clock_gettime(CLOCK_MONOTONIC, &finish);
     elapsed = (finish.tv_sec - start.tv_sec);
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     std::cout << "Calcule fait en: " << (elapsed) << " s" << std::endl;
+
+    int dispMax = -1;
+    int dispMin = int(pow(2, 64));
+    for (int ligne = 0; ligne < hauteur; ++ligne){
+        if (dispMaxTab[ligne] > dispMax){
+            dispMax = dispMaxTab[ligne];
+        }
+        if (dispMinTab[ligne] < dispMin){
+            dispMin = dispMinTab[ligne];
+        }
+    }
 
     //! Display the depth map.
     Imagine::Image<Imagine::Color, 2> depth(largeur, hauteur);

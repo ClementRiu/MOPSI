@@ -8,9 +8,9 @@
 Imagine::Image<int, 2> initDisparity(int largeur, int hauteur) {
     //! Initialise the disparity map.
     Imagine::Image<int, 2> disparity(largeur, hauteur);
-    for (int i = 0; i < hauteur; ++i) {
-        for (int j = 0; j < largeur; ++j) {
-            disparity(j, i) = -1;
+    for (int ligne = 0; ligne < hauteur; ++ligne) {
+        for (int colonne = 0; colonne < largeur; ++colonne) {
+            disparity(colonne, ligne) = -1;
         }
     }
     return disparity;
@@ -21,9 +21,9 @@ Imagine::Image<int, 2>
 initCost(int largeur, int ligne, Img image1, Img image2) {
     //! Initialise the cost map for a row
     Imagine::Image<int, 2> cost(largeur, largeur);
-    for (int j = 0; j < largeur; ++j) {
-        for (int k = 0; k < largeur; ++k) {
-            cost(k, j) = abs(image1(k, ligne) - image2(j, ligne));
+    for (int colR = 0; colR < largeur; ++colR) {
+        for (int colL = 0; colL < largeur; ++colL) {
+            cost(colL, colR) = abs(image1(colL, ligne) - image2(colR, ligne));
         }
     }
     return cost;
@@ -33,10 +33,10 @@ initCost(int largeur, int ligne, Img image1, Img image2) {
 Imagine::Image<int, 1>
 shorterPath(int largeur, int hauteur, Img image1, Img image2, int ligne) {
     //! shorterPath computation with dynamic programming
-    // assiociation gives the pixels associated to the corresponding pixel.
-    Imagine::Image<int, 1> assiociation(largeur);
-    for (int j = 0; j < largeur; ++j) {
-        assiociation(j) = -1; // -1 means there are no association.
+    // association gives the pixels associated to the corresponding pixel.
+    Imagine::Image<int, 1> association(largeur);
+    for (int colL = 0; colL < largeur; ++colL) {
+        association(colL) = -1; // -1 means there are no association.
     }
 
     Imagine::Image<float, 2> distance(largeur, largeur); // distance[i][j] sera
@@ -47,46 +47,46 @@ shorterPath(int largeur, int hauteur, Img image1, Img image2, int ligne) {
     Imagine::Image<int, 2> cost = initCost(largeur, ligne, image1, image2);
 
     //! Initial distance computation :
-    for (int i = 0; i < largeur; ++i) {
-        distance(0, i) = cost(0, i);
-        distance(i, 0) = cost(i, 0);
+    for (int col = 0; col < largeur; ++col) {
+        distance(0, col) = cost(0, col);
+        distance(col, 0) = cost(col, 0);
     }
 
     //! Computation between prefixes
-    for (int i = 1; i < largeur; ++i) {
-        for (int j = 1; j < largeur; j++) {
-            distance(j, i) = std::min(
-                    std::min(distance(j, i - 1), distance(j - 1, i)),
-                    distance(j - 1, i - 1) + cost(j, i));
+    for (int colR = 1; colR < largeur; ++colR) {
+        for (int colL = 1; colL < largeur; colL++) {
+            distance(colL, colR) = std::min(std::min(distance(colL, colR - 1),
+                                                     distance(colL - 1, colR)),
+                                            distance(colL - 1, colR - 1)) +
+                                   cost(colL, colR);
         }
     }
 
-    int realDistance = distance(largeur - 1, largeur - 1);
-
     std::pair<int, int> etape = std::make_pair(largeur - 1, largeur - 1);
-    assiociation(etape.first) = etape.second;
+    association(etape.second) = etape.first;
     //on suppose que les deux derniers pixels sont toujours associés ???? A REVOIR !!!
     //etape est un couple d'indices caractérisant le nouveau sous-problème auquel on se ramène, qui appartient au chemin optimal
     //si etape=(i,j), le prochain sous-problème du chemin optimal consistera à évaluer la distance entre s[:i-1] et t[:j-1]
 
+    float D_antecedent;
     while ((etape.first > 0) && (etape.second > 0)) {
-        float D_antecedent = distance(etape.second, etape.first) -
-                             cost(etape.second, etape.first);
-        if (D_antecedent == distance(etape.second- 1, etape.first- 1)) {
+        D_antecedent = distance(etape.second, etape.first) -
+                       cost(etape.second, etape.first);
+        if (D_antecedent == distance(etape.second - 1, etape.first - 1)) {
             etape.first--;
             etape.second--;
         } else {
-            if (D_antecedent == distance(etape.second- 1, etape.first)) {
-                etape.first--;
+            if (D_antecedent == distance(etape.second - 1, etape.first)) {
+                etape.second--;
             } else {
-                if (D_antecedent == distance(etape.second, etape.first- 1)) {
-                    etape.second--;
+                if (D_antecedent == distance(etape.second, etape.first - 1)) {
+                    etape.first--;
                 }
             }
         }
-        assiociation(etape.first) = etape.second;
+        association(etape.second) = etape.first;
     }
-    return assiociation;
+    return association;
 }
 
 void disparityComputation(int largeur, int hauteur, Img image1, Img image2,
@@ -96,10 +96,11 @@ void disparityComputation(int largeur, int hauteur, Img image1, Img image2,
     Imagine::Image<int, 1> association = shorterPath(largeur, hauteur, image1,
                                                      image2, ligne);
 
-    for (int j = 0; j < largeur; ++j) {
-        if (association(j) != -1) {
-            int localDisparity = abs(j - association(j));
-            disparity(j, ligne) = abs(j - association(j));
+    int localDisparity;
+    for (int colL = 0; colL < largeur; ++colL) {
+        if (association(colL) != -1) {
+            localDisparity = abs(colL - association(colL));
+            disparity(colL, ligne) = localDisparity;
             if (localDisparity > dispMax) {
                 dispMax = localDisparity;
             }
