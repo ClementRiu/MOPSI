@@ -5,6 +5,7 @@
 #ifndef PROJECT_SHORTERPATH_H
 #define PROJECT_SHORTERPATH_H
 
+#include "library.h"
 #include "imageProcessingFunc.h"
 
 //! Initialise the disparity map.

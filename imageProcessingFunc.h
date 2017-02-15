@@ -5,12 +5,7 @@
 #ifndef PROJECT_IMAGEPROCESSINGFUNC_H
 #define PROJECT_IMAGEPROCESSINGFUNC_H
 
-#include <Imagine/Images.h>
-#include <Imagine/Graphics.h>
-#include <iostream>
-#include <time.h>
-#include <vector>
-#include <omp.h>
+#include "library.h"
 
 typedef Imagine::Image<byte> Img;
 

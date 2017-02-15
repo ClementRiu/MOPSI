@@ -2,6 +2,7 @@
 // Created by clementriu on 14/02/17.
 //
 
+#include "library.h"
 #include "imageProcessingFunc.h"
 #include "shorterPath.h"
 
