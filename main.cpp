@@ -78,7 +78,7 @@ int main() {
             dispMinEdge = dispMinTabEdge[ligne];
         }
     }
-
+    std::cout << dispMaxEdge;
     //! Display the depth map with edge.
     Imagine::Image<Imagine::Color, 2> depthEdge(largeur, hauteur);
     depthEdge = disparityToDepth(disparityEdge, dispMaxEdge, dispMinEdge,

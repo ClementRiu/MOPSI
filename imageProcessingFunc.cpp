@@ -119,7 +119,7 @@ void edgeDetector(const Img &image, Img &imageOutput) {
 
 byte transform(int valeur, int valMax, int valMin) {
     //! Gives a value between 0 and 254 to a given value.
-    return byte(255 * (valeur - 0 * valMin) / (valMax - 0 * valMin));
+    return byte(255 * (valeur - valMin) / (valMax - valMin));
 }
 
 Imagine::Image<Imagine::Color, 2>
