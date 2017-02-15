@@ -55,9 +55,9 @@ int main() {
     std::cout << "Début du calcul avec edge..." << std::endl;
     clock_t time1Edge = clock_gettime(CLOCK_MONOTONIC, &startEdge);
 
-//#pragma omp parallel for
+#pragma omp parallel for
     for (int ligne = 0; ligne < hauteur; ++ligne) {
-        disparityComputationEdgy(largeur, hauteur, image_L, image_R, ligne,
+        disparityComputationEdgy(largeur, image_L, image_R, ligne,
                                  disparityEdge, dispMaxTabEdge[ligne],
                                  dispMinTabEdge[ligne], image_L_edges,
                                  image_R_edges);
@@ -81,7 +81,8 @@ int main() {
 
     //! Display the depth map with edge.
     Imagine::Image<Imagine::Color, 2> depthEdge(largeur, hauteur);
-    depthEdge = disparityToDepth(disparityEdge, dispMaxEdge, dispMinEdge, largeur, hauteur);
+    depthEdge = disparityToDepth(disparityEdge, dispMaxEdge, dispMinEdge,
+                                 largeur, hauteur);
     display(depthEdge, Imagine::IntPoint2(largeur * 2 + 3, 1));
 
 
@@ -102,11 +103,10 @@ int main() {
     std::cout << "Début du calcul..." << std::endl;
     clock_t time1 = clock_gettime(CLOCK_MONOTONIC, &start);
 
-//#pragma omp parallel for
+#pragma omp parallel for
     for (int ligne = 0; ligne < hauteur; ++ligne) {
-        disparityComputation(largeur, hauteur, image_L, image_R, ligne,
-                                 disparity, dispMaxTab[ligne],
-                                 dispMinTab[ligne]);
+        disparityComputation(largeur, image_L, image_R, ligne, disparity,
+                             dispMaxTab[ligne], dispMinTab[ligne]);
     }
 
     clock_t time2 = clock_gettime(CLOCK_MONOTONIC, &finish);

@@ -117,14 +117,14 @@ void edgeDetector(const Img &image, Img &imageOutput) {
     }
 }
 
-byte transform(const int &valeur, const int &valMax, const int &valMin) {
+byte transform(int valeur, int valMax, int valMin) {
     //! Gives a value between 0 and 254 to a given value.
     return byte(255 * (valeur - 0 * valMin) / (valMax - 0 * valMin));
 }
 
 Imagine::Image<Imagine::Color, 2>
-disparityToDepth(const Imagine::Image<int, 2> &disparity, const int &dispMax,
-                 const int &dispMin, const int &largeur, const int &hauteur) {
+disparityToDepth(const Imagine::Image<int, 2> &disparity, int dispMax,
+                 int dispMin, int largeur, int hauteur) {
     //! Gives back the depth map from a disparity map.
     Imagine::Image<Imagine::Color, 2> depth(largeur, hauteur);
 
