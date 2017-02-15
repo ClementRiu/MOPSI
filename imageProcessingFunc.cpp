@@ -4,7 +4,7 @@
 
 #include "imageProcessingFunc.h"
 
-int loadingImage(Img &image1, Img &image2, std::string name) {
+int loadingImage(Img &image1, Img &image2, const std::string &name) {
     //! Loads the images in image1 (left) and image2 (right).
     if (name == "cone") {
         if (!Imagine::load(image1, srcPath("cone/cone_L.png"))) {
@@ -34,7 +34,7 @@ int loadingImage(Img &image1, Img &image2, std::string name) {
 }
 
 
-void edgeDetector(Img image, Img &imageOutput) {
+void edgeDetector(const Img &image, Img &imageOutput) {
     //! Find the edges of image using the Sobel method.
     byte seuil = 32; // Si le gradient est en deça de ce seuil, on met le bord
     // en noir, sinon en blanc.
@@ -117,14 +117,14 @@ void edgeDetector(Img image, Img &imageOutput) {
     }
 }
 
-byte transform(int valeur, int valMax, int valMin) {
+byte transform(const int &valeur, const int &valMax, const int &valMin) {
     //! Gives a value between 0 and 254 to a given value.
     return byte(255 * (valeur - 0 * valMin) / (valMax - 0 * valMin));
 }
 
 Imagine::Image<Imagine::Color, 2>
-disparityToDepth(Imagine::Image<int, 2> disparity, int dispMax, int dispMin,
-                 int largeur, int hauteur) {
+disparityToDepth(const Imagine::Image<int, 2> &disparity, const int &dispMax,
+                 const int &dispMin, const int &largeur, const int &hauteur) {
     //! Gives back the depth map from a disparity map.
     Imagine::Image<Imagine::Color, 2> depth(largeur, hauteur);
 

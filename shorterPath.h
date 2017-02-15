@@ -9,29 +9,36 @@
 #include "imageProcessingFunc.h"
 
 //! Initialise the disparity map.
-Imagine::Image<int, 2> initDisparity(int largeur, int hauteur);
+Imagine::Image<int, 2> initDisparity(const int &largeur, const int &hauteur);
 
 //! Initialise the cost map for a row
-Imagine::Image<int, 2> initCost(int largeur, int ligne, Img image1, Img image2);
+Imagine::Image<int, 2>
+initCost(const int &largeur, const int &ligne, const Img &image1,
+         const Img &image2);
 
 //! shorterPath computation with dynamic programming
 Imagine::Image<int, 1>
-shorterPath(int largeur, int hauteur, Img image1, Img image2, int ligne);
+shorterPath(const int &largeur, const Imagine::Image<int, 2> cost,
+            const int &ligne);
 
 //! depth computation
-void disparityComputation(int largeur, int hauteur, Img image1, Img image2,
-                          int ligne, Imagine::Image<int, 2> disparity,
-                          int dispMax, int dispMin);
+void
+disparityComputation(const int &largeur, const int &hauteur, const Img &image1,
+                     const Img image2, const int &ligne,
+                     Imagine::Image<int, 2> &disparity, int &dispMax,
+                     int &dispMin);
 
 //! shorterPath computation with dynamic programming with edges
 Imagine::Image<int, 1>
-shorterPathEdgy(int largeur, Img image1, Img image2, int ligne,
-                Img image1Edge, Img image2Edge);
+shorterPathEdgy(const int &largeur, const Imagine::Image<int, 2> cost,
+                const int &ligne, const Img &image1Edge, const Img &image2Edge);
 
 //! depth computation with edges
-void disparityComputationEdgy(int largeur, int hauteur, Img image1, Img image2,
-                              int ligne, Imagine::Image<int, 2> disparity,
-                              int dispMax, int dispMin, Img image1Edge,
-                              Img image2Edge);
+void disparityComputationEdgy(const int &largeur, const int &hauteur,
+                              const Img &image1, const Img &image2,
+                              const int &ligne,
+                              Imagine::Image<int, 2> &disparity, int &dispMax,
+                              int &dispMin, const Img &image1Edge,
+                              const Img &image2Edge);
 
 #endif //PROJECT_SHORTERPATH_H
