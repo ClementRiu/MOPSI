@@ -31,7 +31,8 @@ initCost(int largeur, int ligne, Img image1, Img image2) {
 
 
 Imagine::Image<int, 1>
-shorterPath(int largeur, int hauteur, Img image1, Img image2, int ligne) {
+shorterPathEdgy(int largeur, Img image1, Img image2, int ligne,
+            Img image1Edge, Img image2Edge) {
     //! shorterPath computation with dynamic programming
     // association gives the pixels associated to the corresponding pixel.
     Imagine::Image<int, 1> association(largeur);
@@ -55,8 +56,14 @@ shorterPath(int largeur, int hauteur, Img image1, Img image2, int ligne) {
     //! Computation between prefixes
     for (int colR = 1; colR < largeur; ++colR) {
         for (int colL = 1; colL < largeur; colL++) {
-            distance(colL, colR) = std::min(std::min(distance(colL, colR - 1),
-                                                     distance(colL - 1, colR)),
+            distance(colL, colR) = std::min(std::min(distance(colL, colR - 1) +
+                                                      10000000 * (1 - image1Edge(
+                                                             colL, ligne) /
+                                                                     255),
+                                                     distance(colL - 1, colR) +
+                                                     10000000 * (1 - image2Edge(
+                                                             colR, ligne) /
+                                                                     255)),
                                             distance(colL - 1, colR - 1)) +
                                    cost(colL, colR);
         }
@@ -89,12 +96,14 @@ shorterPath(int largeur, int hauteur, Img image1, Img image2, int ligne) {
     return association;
 }
 
-void disparityComputation(int largeur, int hauteur, Img image1, Img image2,
+void disparityComputationEdgy(int largeur, int hauteur, Img image1, Img image2,
                           int ligne, Imagine::Image<int, 2> disparity,
-                          int dispMax, int dispMin) {
+                          int dispMax, int dispMin, Img image1Edge,
+                          Img image2Edge) {
     //! depth computation
-    Imagine::Image<int, 1> association = shorterPath(largeur, hauteur, image1,
-                                                     image2, ligne);
+    Imagine::Image<int, 1> association = shorterPathEdgy(largeur, image1,
+                                                     image2, ligne, image1Edge,
+                                                     image2Edge);
 
     int localDisparity;
     for (int colL = 0; colL < largeur; ++colL) {

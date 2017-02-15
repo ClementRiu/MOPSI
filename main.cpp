@@ -42,7 +42,7 @@ int main() {
     disparity = initDisparity(largeur, hauteur);
     int *dispMaxTab = new int[hauteur];
     int *dispMinTab = new int[hauteur];
-    for (int ligne = 0; ligne < hauteur; ++ligne){
+    for (int ligne = 0; ligne < hauteur; ++ligne) {
         dispMaxTab[ligne] = -1;
         dispMinTab[ligne] = int(pow(2, 64));
     }
@@ -56,8 +56,9 @@ int main() {
 
 //#pragma omp parallel for
     for (int ligne = 0; ligne < hauteur; ++ligne) {
-        disparityComputation(largeur, hauteur, image_L, image_R, ligne,
-                             disparity, dispMaxTab[ligne], dispMinTab[ligne]);
+        disparityComputationEdgy(largeur, hauteur, image_L, image_R, ligne,
+                             disparity, dispMaxTab[ligne], dispMinTab[ligne],
+                             image_L_edges, image_R_edges);
     }
 
     clock_t time2 = clock_gettime(CLOCK_MONOTONIC, &finish);
@@ -67,11 +68,11 @@ int main() {
 
     int dispMax = -1;
     int dispMin = int(pow(2, 64));
-    for (int ligne = 0; ligne < hauteur; ++ligne){
-        if (dispMaxTab[ligne] > dispMax){
+    for (int ligne = 0; ligne < hauteur; ++ligne) {
+        if (dispMaxTab[ligne] > dispMax) {
             dispMax = dispMaxTab[ligne];
         }
-        if (dispMinTab[ligne] < dispMin){
+        if (dispMinTab[ligne] < dispMin) {
             dispMin = dispMinTab[ligne];
         }
     }
