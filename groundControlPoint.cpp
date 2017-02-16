@@ -17,7 +17,7 @@ groundControlPointDetect(int largeur, const Img &image1, const Img &image2,
     for (int colL = GCPWidth; colL < largeur - GCPWidth; ++colL) {
         for (int colR = GCPWidth; colR < largeur - GCPWidth; ++colR) {
             sum = 0;
-            for (int cross = - GCPWidth; cross < GCPWidth + 1; ++cross) {
+            for (int cross = -GCPWidth; cross < GCPWidth + 1; ++cross) {
                 sum += cost(colR + cross, colL + cross);
                 sum += abs(image1(colL, (ligne + cross)) -
                            image2(colR, (ligne + cross)));
