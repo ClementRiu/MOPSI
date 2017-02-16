@@ -15,5 +15,6 @@ find_package(OpenMP)
 
 
 add_executable(Mopsi main.cpp imageProcessingFunc.cpp imageProcessingFunc.h
-        shorterPath.cpp shorterPath.h)
+        shorterPath.cpp shorterPath.h groundControlPoint.cpp
+        groundControlPoint.h)
 ImagineUseModules(Mopsi Images)
