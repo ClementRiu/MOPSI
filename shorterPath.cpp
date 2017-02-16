@@ -62,10 +62,12 @@ shorterPath(int largeur, const Imagine::Image<int, 2> &cost, int ligne) {
     }
 
     std::pair<int, int> etape = std::make_pair(largeur - 1, largeur - 1);
-    association(etape.second) = etape.first;
-    //on suppose que les deux derniers pixels sont toujours associés ???? A REVOIR !!!
-    //etape est un couple d'indices caractérisant le nouveau sous-problème auquel on se ramène, qui appartient au chemin optimal
-    //si etape=(i,j), le prochain sous-problème du chemin optimal consistera à évaluer la distance entre s[:i-1] et t[:j-1]
+    association(etape.second) = etape.first; // on associe les deux derniers
+    // pixels. etape est un couple d'indices caractérisant le nouveau
+    // sous-problème auquel on se ramène, qui appartient au chemin optimal
+    // si etape=(i,j), le prochain sous-problème du chemin optimal consistera à
+    // évaluer la distance entre les pixels de 0 à i-1 de l'image 1 et de 0 à
+    // j-1 de l'image 2.
 
     float D_antecedent;
     while ((etape.first > 0) && (etape.second > 0)) {
@@ -74,16 +76,19 @@ shorterPath(int largeur, const Imagine::Image<int, 2> &cost, int ligne) {
         if (D_antecedent == distance(etape.second - 1, etape.first - 1)) {
             etape.first--;
             etape.second--;
+            association(etape.second) = etape.first;
         } else {
             if (D_antecedent == distance(etape.second - 1, etape.first)) {
+                association(etape.second) = -1;
                 etape.second--;
+                association(etape.second) = etape.first;
             } else {
                 if (D_antecedent == distance(etape.second, etape.first - 1)) {
                     etape.first--;
+                    association(etape.second) = etape.first;
                 }
             }
         }
-        association(etape.second) = etape.first;
     }
     return association;
 }
@@ -150,10 +155,12 @@ shorterPathEdgy(int largeur, const Imagine::Image<int, 2> &cost, int ligne,
     }
 
     std::pair<int, int> etape = std::make_pair(largeur - 1, largeur - 1);
-    association(etape.second) = etape.first;
-    //on suppose que les deux derniers pixels sont toujours associés ???? A REVOIR !!!
-    //etape est un couple d'indices caractérisant le nouveau sous-problème auquel on se ramène, qui appartient au chemin optimal
-    //si etape=(i,j), le prochain sous-problème du chemin optimal consistera à évaluer la distance entre s[:i-1] et t[:j-1]
+    association(etape.second) = etape.first; // on associe les deux derniers
+    // pixels. etape est un couple d'indices caractérisant le nouveau
+    // sous-problème auquel on se ramène, qui appartient au chemin optimal
+    // si etape=(i,j), le prochain sous-problème du chemin optimal consistera à
+    // évaluer la distance entre les pixels de 0 à i-1 de l'image 1 et de 0 à
+    // j-1 de l'image 2.
 
     float D_antecedent;
     while ((etape.first > 0) && (etape.second > 0)) {
@@ -162,16 +169,19 @@ shorterPathEdgy(int largeur, const Imagine::Image<int, 2> &cost, int ligne,
         if (D_antecedent == distance(etape.second - 1, etape.first - 1)) {
             etape.first--;
             etape.second--;
+            association(etape.second) = etape.first;
         } else {
             if (D_antecedent == distance(etape.second - 1, etape.first)) {
+                association(etape.second) = -1;
                 etape.second--;
+                association(etape.second) = etape.first;
             } else {
                 if (D_antecedent == distance(etape.second, etape.first - 1)) {
                     etape.first--;
+                    association(etape.second) = etape.first;
                 }
             }
         }
-        association(etape.second) = etape.first;
     }
     return association;
 }
