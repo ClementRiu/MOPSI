@@ -202,16 +202,16 @@ int main() {
     display(depth, Imagine::IntPoint2(largeur * 2 + 3, hauteur + 2));
 */
 
-    printResults(false, true, imageL, imageR, largeur, hauteur,
+    printResults(false, false, imageL, imageR, largeur, hauteur,
                  Imagine::IntPoint2(largeur * 2 + 3, 1));
 
-    printResults(false, false, imageL, imageR, largeur, hauteur,
+    printResults(false, true, imageL, imageR, largeur, hauteur,
                  Imagine::IntPoint2(largeur * 2 + 3, hauteur + 2));
 
-    printResults(true, true, imageL, imageR, largeur, hauteur,
+    printResults(true, false, imageL, imageR, largeur, hauteur,
                  Imagine::IntPoint2(largeur * 3 + 4, 1));
 
-    printResults(true, false, imageL, imageR, largeur, hauteur,
+    printResults(true, true, imageL, imageR, largeur, hauteur,
                  Imagine::IntPoint2(largeur * 3 + 4, hauteur + 2));
 
     Imagine::endGraphics();
