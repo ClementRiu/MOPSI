@@ -82,7 +82,7 @@ int main() {
     Img imageR;
     // Chargement des images.
     // "cone" ou "tsuku"
-    if (loadingImage(imageL, imageR, "cone") == 1) {
+    if (loadingImage(imageL, imageR, "tsuku") == 1) {
         std::cerr << "Mauvais chargement de fichier" << std::endl;
         return 0;
     }
