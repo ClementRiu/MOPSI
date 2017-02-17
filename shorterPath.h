@@ -16,29 +16,6 @@ Imagine::Image<int, 2> initDisparity(int largeur, int hauteur);
 Imagine::Image<int, 2>
 initCost(int largeur, int ligne, const Img &image1, const Img &image2);
 
-/*
-//! shorterPath computation with dynamic programming
-Imagine::Image<int, 1>
-shorterPath(int largeur, const Imagine::Image<int, 2> &cost, int ligne);
-
-//! depth computation
-void disparityComputation(int largeur, const Img &image1,
-                          const Img &image2, int ligne,
-                          Imagine::Image<int, 2> &disparity, int &dispMax,
-                          int &dispMin);
-
-//! shorterPath computation with dynamic programming with edges
-Imagine::Image<int, 1>
-shorterPathEdgy(int largeur, const Imagine::Image<int, 2> &cost, int ligne,
-                const Img &image1Edge, const Img &image2Edge);
-
-//! depth computation with edges
-void disparityComputationEdgy(int largeur, const Img &image1, const Img &image2,
-                              int ligne, Imagine::Image<int, 2> &disparity,
-                              int &dispMax, int &dispMin, const Img &image1Edge,
-                              const Img &image2Edge);
-*/
-
 //! shorterPath computation with dynamic programming
 Imagine::Image<int, 1>
 shorterPathG(int largeur, const Imagine::Image<int, 2> &cost, int ligne,

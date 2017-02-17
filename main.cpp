@@ -81,8 +81,8 @@ int main() {
     Img imageL;
     Img imageR;
     // Chargement des images.
-    // "cone" ou "tsuku"
-    if (loadingImage(imageL, imageR, "tsuku") == 1) {
+    // "cone" ou "tsuku" ou "tooth" ou "art" ou "deer"
+    if (loadingImage(imageL, imageR, "cone") == 1) {
         std::cerr << "Mauvais chargement de fichier" << std::endl;
         return 0;
     }
@@ -99,108 +99,6 @@ int main() {
     Imagine::openWindow(4 * largeur + 5, 2 * hauteur + 3, "Disparity map");
     display(grey(imageL), Imagine::IntPoint2(1, 1));
     display(grey(imageR), Imagine::IntPoint2(1, hauteur + 1));
-
-/*
-    //! Affichage des bords des images
-    Imagine::Image<byte, 2> imageLEdges(largeur, hauteur);
-    edgeDetector(imageL, imageLEdges);
-    display(grey(imageLEdges), Imagine::IntPoint2(largeur + 2, 1));
-    Imagine::Image<byte, 2> imageREdges(largeur, hauteur);
-    edgeDetector(imageR, imageREdges);
-    display(grey(imageREdges), Imagine::IntPoint2(largeur + 2, hauteur + 2));
-
-    //! Computation of disparity map with edges
-    Imagine::Image<int, 2> disparityEdge(largeur, hauteur);
-    disparityEdge = initDisparity(largeur, hauteur);
-    int *dispMaxTabEdge = new int[hauteur];
-    int *dispMinTabEdge = new int[hauteur];
-    for (int ligne = 0; ligne < hauteur; ++ligne) {
-        dispMaxTabEdge[ligne] = -1;
-        dispMinTabEdge[ligne] = int(pow(2, 64));
-    }
-
-
-    // Time calculation to compare different algorithm
-    struct timespec startEdge, finishEdge;
-    double elapsedEdge;
-    std::cout << "Début du calcul avec edge..." << std::endl;
-    clock_t time1Edge = clock_gettime(CLOCK_MONOTONIC, &startEdge);
-
-#pragma omp parallel for
-    for (int ligne = 5; ligne < hauteur - 5; ++ligne) {
-        disparityComputationEdgy(largeur, imageL, imageR, ligne,
-                                 disparityEdge, dispMaxTabEdge[ligne],
-                                 dispMinTabEdge[ligne], imageLEdges,
-                                 imageREdges);
-    }
-
-    clock_t time2Edge = clock_gettime(CLOCK_MONOTONIC, &finishEdge);
-    elapsedEdge = (finishEdge.tv_sec - startEdge.tv_sec);
-    elapsedEdge += (finishEdge.tv_nsec - startEdge.tv_nsec) / 1000000000.0;
-    std::cout << "Calcul fait en: " << (elapsedEdge) << " s" << std::endl;
-
-    int dispMaxEdge = -1;
-    int dispMinEdge = int(pow(2, 64));
-    for (int ligne = 0; ligne < hauteur; ++ligne) {
-        if (dispMaxTabEdge[ligne] > dispMaxEdge) {
-            dispMaxEdge = dispMaxTabEdge[ligne];
-        }
-        if (dispMinTabEdge[ligne] < dispMinEdge) {
-            dispMinEdge = dispMinTabEdge[ligne];
-        }
-    }
-
-    //! Display the depth map with edge.
-    Imagine::Image<Imagine::Color, 2> depthEdge(largeur, hauteur);
-    depthEdge = disparityToDepth(disparityEdge, dispMaxEdge, dispMinEdge,
-                                 largeur, hauteur);
-    display(depthEdge, Imagine::IntPoint2(largeur * 2 + 3, 1));
-*/
-/*
-    //! Calcul de la carte de disparité
-    Imagine::Image<int, 2> disparity(largeur, hauteur);
-    disparity = initDisparity(largeur, hauteur);
-    int *dispMaxTab = new int[hauteur];
-    int *dispMinTab = new int[hauteur];
-    for (int ligne = 0; ligne < hauteur; ++ligne) {
-        dispMaxTab[ligne] = -1;
-        dispMinTab[ligne] = int(pow(2, 64));
-    }
-
-
-    // Time calculation to compare different algorithm
-    struct timespec start, finish;
-    double elapsed;
-    std::cout << "Début du calcul..." << std::endl;
-    clock_t time1 = clock_gettime(CLOCK_MONOTONIC, &start);
-
-#pragma omp parallel for
-    for (int ligne = 5; ligne < hauteur - 5; ++ligne) {
-        disparityComputation(largeur, imageL, imageR, ligne, disparity,
-                             dispMaxTab[ligne], dispMinTab[ligne]);
-    }
-
-    clock_t time2 = clock_gettime(CLOCK_MONOTONIC, &finish);
-    elapsed = (finish.tv_sec - start.tv_sec);
-    elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-    std::cout << "Calcul fait en: " << (elapsed) << " s" << std::endl;
-
-    int dispMax = -1;
-    int dispMin = int(pow(2, 64));
-    for (int ligne = 0; ligne < hauteur; ++ligne) {
-        if (dispMaxTab[ligne] > dispMax) {
-            dispMax = dispMaxTab[ligne];
-        }
-        if (dispMinTab[ligne] < dispMin) {
-            dispMin = dispMinTab[ligne];
-        }
-    }
-
-    //! Display the depth map.
-    Imagine::Image<Imagine::Color, 2> depth(largeur, hauteur);
-    depth = disparityToDepth(disparity, dispMax, dispMin, largeur, hauteur);
-    display(depth, Imagine::IntPoint2(largeur * 2 + 3, hauteur + 2));
-*/
 
     printResults(false, false, imageL, imageR, largeur, hauteur,
                  Imagine::IntPoint2(largeur * 2 + 3, 1));
