@@ -7,6 +7,7 @@
 
 #include "library.h"
 #include "imageProcessingFunc.h"
+#include "groundControlPoint.h"
 
 //! Initialise the disparity map.
 Imagine::Image<int, 2> initDisparity(int largeur, int hauteur);
@@ -17,23 +18,14 @@ initCost(int largeur, int ligne, const Img &image1, const Img &image2);
 
 //! shorterPath computation with dynamic programming
 Imagine::Image<int, 1>
-shorterPath(int largeur, const Imagine::Image<int, 2> &cost, int ligne);
+shorterPathG(int largeur, const Imagine::Image<int, 2> &cost, int ligne,
+             const Img &image1Edge, const Img &image2Edge, bool useEdge);
 
 //! depth computation
-void disparityComputation(int largeur, const Img &image1,
-                          const Img &image2, int ligne,
-                          Imagine::Image<int, 2> &disparity, int &dispMax,
-                          int &dispMin);
-
-//! shorterPath computation with dynamic programming with edges
-Imagine::Image<int, 1>
-shorterPathEdgy(int largeur, const Imagine::Image<int, 2> &cost, int ligne,
-                const Img &image1Edge, const Img &image2Edge);
-
-//! depth computation with edges
-void disparityComputationEdgy(int largeur, const Img &image1, const Img &image2,
-                              int ligne, Imagine::Image<int, 2> &disparity,
-                              int &dispMax, int &dispMin, const Img &image1Edge,
-                              const Img &image2Edge);
+void disparityComputationG(int largeur, const Img &image1, const Img &image2,
+                           int ligne, Imagine::Image<int, 2> &disparity,
+                           int &dispMax, int &dispMin, const Img &image1Edge,
+                           const Img &image2Edge, bool useEdge, bool useGCP,
+                           int GCPWidth);
 
 #endif //PROJECT_SHORTERPATH_H

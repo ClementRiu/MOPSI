@@ -13,16 +13,40 @@ int loadingImage(Img &image1, Img &image2, const std::string &name) {
         if (!Imagine::load(image2, srcPath("cone/cone_R.png"))) {
             return 1;
         }
-    } else {
-        if (name == "tsuku") {
-            if (!Imagine::load(image1, srcPath("tsukuba/tsuku_col1.ppm"))) {
-                return 1;
-            }
-            if (!Imagine::load(image2, srcPath("tsukuba/tsuku_col5.ppm"))) {
-                return 1;
-            }
+    }
+    if (name == "tsuku") {
+        if (!Imagine::load(image1, srcPath("tsukuba/tsuku_col1.ppm"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("tsukuba/tsuku_col5.ppm"))) {
+            return 1;
         }
     }
+    if (name == "tooth") {
+        if (!Imagine::load(image1, srcPath("sawtooth/im1.ppm"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("sawtooth/im6.ppm"))) {
+            return 1;
+        }
+    }
+    if (name == "art") {
+        if (!Imagine::load(image1, srcPath("art/view0.png"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("art/view5.png"))) {
+            return 1;
+        }
+    }
+    if (name == "deer") {
+        if (!Imagine::load(image1, srcPath("deer/view0.png"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("deer/view5.png"))) {
+            return 1;
+        }
+    }
+
     // Checking the images are the same size.
     if (image1.width() == image2.width() &&
         image1.height() == image2.height()) {

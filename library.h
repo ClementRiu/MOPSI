@@ -10,6 +10,7 @@
 #include <iostream>
 #include <time.h>
 #include <vector>
+#include <map>
 #include <omp.h>
 
 #endif //PROJECT_LIBRARY_H
