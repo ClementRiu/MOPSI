@@ -4,7 +4,7 @@
 
 #include "imageProcessingFunc.h"
 
-int loadingImage(Img &image1, Img &image2, std::string name) {
+int loadingImage(Img &image1, Img &image2, const std::string &name) {
     //! Loads the images in image1 (left) and image2 (right).
     if (name == "cone") {
         if (!Imagine::load(image1, srcPath("cone/cone_L.png"))) {
@@ -13,16 +13,40 @@ int loadingImage(Img &image1, Img &image2, std::string name) {
         if (!Imagine::load(image2, srcPath("cone/cone_R.png"))) {
             return 1;
         }
-    } else {
-        if (name == "tsuku") {
-            if (!Imagine::load(image1, srcPath("tsukuba/tsuku_col1.ppm"))) {
-                return 1;
-            }
-            if (!Imagine::load(image2, srcPath("tsukuba/tsuku_col5.ppm"))) {
-                return 1;
-            }
+    }
+    if (name == "tsuku") {
+        if (!Imagine::load(image1, srcPath("tsukuba/tsuku_col1.ppm"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("tsukuba/tsuku_col5.ppm"))) {
+            return 1;
         }
     }
+    if (name == "tooth") {
+        if (!Imagine::load(image1, srcPath("sawtooth/im1.ppm"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("sawtooth/im6.ppm"))) {
+            return 1;
+        }
+    }
+    if (name == "art") {
+        if (!Imagine::load(image1, srcPath("art/view0.png"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("art/view5.png"))) {
+            return 1;
+        }
+    }
+    if (name == "deer") {
+        if (!Imagine::load(image1, srcPath("deer/view0.png"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("deer/view5.png"))) {
+            return 1;
+        }
+    }
+
     // Checking the images are the same size.
     if (image1.width() == image2.width() &&
         image1.height() == image2.height()) {
@@ -34,9 +58,9 @@ int loadingImage(Img &image1, Img &image2, std::string name) {
 }
 
 
-void edgeDetector(Img image, Img &imageOutput) {
+void edgeDetector(const Img &image, Img &imageOutput) {
     //! Find the edges of image using the Sobel method.
-    byte seuil = 64; // Si le gradient est en deça de ce seuil, on met le bord
+    byte seuil = 32; // Si le gradient est en deça de ce seuil, on met le bord
     // en noir, sinon en blanc.
 
     int hauteur = image.height();
@@ -119,12 +143,12 @@ void edgeDetector(Img image, Img &imageOutput) {
 
 byte transform(int valeur, int valMax, int valMin) {
     //! Gives a value between 0 and 254 to a given value.
-    return byte(255 * (valeur - 0 * valMin) / (valMax - 0 * valMin));
+    return byte(255 * (valeur - valMin) / (valMax - valMin));
 }
 
 Imagine::Image<Imagine::Color, 2>
-disparityToDepth(Imagine::Image<int, 2> disparity, int dispMax, int dispMin,
-                 int largeur, int hauteur) {
+disparityToDepth(const Imagine::Image<int, 2> &disparity, int dispMax,
+                 int dispMin, int largeur, int hauteur) {
     //! Gives back the depth map from a disparity map.
     Imagine::Image<Imagine::Color, 2> depth(largeur, hauteur);
 

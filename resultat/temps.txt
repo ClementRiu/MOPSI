@@ -1,0 +1,47 @@
+
+
+
+Début du calcul avec edge...
+Calcul fait en: 9.67448 s
+Début du calcul...
+Calcul fait en: 7.77206 s
+
+Début du calcul avec edge...
+Calcul fait en: 9.95073 s
+Début du calcul...
+Calcul fait en: 7.78191 s
+
+Début du calcul avec edge...
+Calcul fait en: 9.83467 s
+Début du calcul...
+Calcul fait en: 7.69547 s
+
+Début du calcul avec edge...
+Calcul fait en: 9.68051 s
+Début du calcul...
+Calcul fait en: 7.67558 s
+
+Début du calcul avec edge...
+Calcul fait en: 2.72898 s
+341Début du calcul...
+Calcul fait en: 1.72528 s
+
+Chargement réussi.
+Dimension de l'image : 450 * 375
+168750
+Calcul d'une carte de disparité : 
+Edges use : 0  /  GCP use : 1
+Début du calcul...
+Calcul fait en: 5.64067 s
+Calcul d'une carte de disparité : 
+Edges use : 0  /  GCP use : 0
+Début du calcul...
+Calcul fait en: 1.81606 s
+Calcul d'une carte de disparité : 
+Edges use : 1  /  GCP use : 1
+Début du calcul...
+Calcul fait en: 5.13659 s
+Calcul d'une carte de disparité : 
+Edges use : 1  /  GCP use : 0
+Début du calcul...
+Calcul fait en: 1.97113 s
