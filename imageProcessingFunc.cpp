@@ -46,6 +46,14 @@ int loadingImage(Img &image1, Img &image2, const std::string &name) {
             return 1;
         }
     }
+    if (name == "plante") {
+        if (!Imagine::load(image1, srcPath("plante/view1.png"))) {
+            return 1;
+        }
+        if (!Imagine::load(image2, srcPath("plante/view5.png"))) {
+            return 1;
+        }
+    }
 
     // Checking the images are the same size.
     if (image1.width() == image2.width() &&

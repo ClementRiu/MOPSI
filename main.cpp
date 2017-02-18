@@ -81,7 +81,7 @@ int main() {
     Img imageL;
     Img imageR;
     // Chargement des images.
-    // "cone" ou "tsuku" ou "tooth" ou "art" ou "deer"
+    // "cone" ou "tsuku" ou "tooth" ou "art" ou "deer" ou "plante"
     if (loadingImage(imageL, imageR, "cone") == 1) {
         std::cerr << "Mauvais chargement de fichier" << std::endl;
         return 0;
